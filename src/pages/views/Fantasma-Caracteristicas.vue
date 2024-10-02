@@ -27,19 +27,20 @@
       <label>Cordura:</label>
       <select v-model="filtroCordura">
         <option value="">Todos</option>
-        <option value="20%">20%</option>
-        <option value="30%">30%</option>
+        <option value="35%">35%</option>
         <option value="40%">40%</option>
+        <option value="50% de su target">50% de su target</option>
         <option value="50%">50%</option>
         <option value="60%">60%</option>
+        <option value="70%">70%</option>
       </select>
     </div>
     <div class="filtro">
       <label>Incienso:</label>
       <select v-model="filtroIncienso">
         <option value="">Todos</option>
-        <option value="80 segundos">80 segundos</option>
-        <option value="120 segundos">120 segundos</option>
+        <option value="< 90 segundos">antes de 90 segundos</option>
+        <option value="90 segundos">90 segundos</option>
         <option value="180 segundos">180 segundos</option>
       </select>
     </div>
@@ -57,12 +58,17 @@
       <select v-model="filtroHabilidad">
         <option value="">Todos</option>
         <option value="ninguna">Ninguna</option>
-        <option value="puede poseer a los vivos">
-          Puede poseer a los vivos
+        <option value="Puede atacar al 60% si no hay luces">
+          Puede atacar al 60% si no hay luces
         </option>
-        <option value="puede crear ilusiones">Puede crear ilusiones</option>
-        <option value="puede lanzar muchos objetos a la vez">
-          Puede lanzar muchos objetos a la vez
+        <option value="Ataca al 80% si alguien habla">
+          Ataca al 80% si alguien habla
+        </option>
+        <option value="Ataca si apaga tres llamas">
+          Ataca si apaga tres llamas
+        </option>
+        <option value="no puedes esconderte">
+          No puedes esconderte
         </option>
       </select>
     </div>
@@ -142,7 +148,10 @@ export default {
     const datosCollectionRef = collection(db, "datos");
     getDocs(datosCollectionRef).then((snapshot) => {
       this.fantasmas = snapshot.docs.map((doc) => doc.data())[0].ghosts;
-      this.fantasmas =  this.fantasmas.map((obj) => ({ ...obj, ghostShow: false }));
+      this.fantasmas = this.fantasmas.map((obj) => ({
+        ...obj,
+        ghostShow: false,
+      }));
       this.fantasmasFiltrados = this.fantasmas;
     });
   },
@@ -181,7 +190,7 @@ export default {
 </script>
 
 <style scoped>
-.lista-fantasmas{
+.lista-fantasmas {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;

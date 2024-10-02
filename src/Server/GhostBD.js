@@ -456,7 +456,7 @@ const jsonData = {
         },
         tiempo_de_cacería: {
           cordura: "50%",
-          incienso: "90 segundos",
+          incienso: "< 90 segundos",
         },
         frecuencia_de_parpadear: "normal",
         fuerte: "El rayo mcquen cuando es joven",
