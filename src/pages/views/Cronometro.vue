@@ -1,9 +1,21 @@
 <template>
   <div class="inicio-container">
-    <h1>{{ formattedTime }}</h1>
-    <button class="btn-start" @click="startTimer">Start</button>
-    <button class="btn-stop" @click="stopTimer">Stop</button>
-    <button class="btn-reset" @click="resetTimer">Reset</button>
+    <div class="cronometro-container">
+      <h1>{{ formattedTime }}</h1>
+      <button class="btn-start" @click="startTimer">Start</button>
+      <button class="btn-stop" @click="stopTimer">Stop</button>
+      <button class="btn-reset" @click="resetTimer">Reset</button>
+    </div>
+    <div class="progress-card-container">
+      <div class="progress-container">
+        <div class="progress-bar" :style="{ width: progressBarWidth }"></div>
+      </div>
+      <div class="card-container">
+        <div class="card">
+          <h2>{{ entityName }}</h2>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -15,6 +27,8 @@ export default {
       intervalId: null,
       pausedTime: 0,
       pausedAt: null,
+      started: false,
+      progressBarValue: 0,
     };
   },
   computed: {
@@ -22,9 +36,19 @@ export default {
       const minutes = Math.floor(this.currentTime / 60000);
       const seconds = Math.floor((this.currentTime % 60000) / 1000);
       const milliseconds = this.currentTime % 1000;
-      return `${minutes.toString().padStart(2, "0")}:${seconds
-        .toString()
-        .padStart(2, "0")}.${milliseconds.toString().padStart(3, "0")}`;
+      return `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}.${milliseconds.toString().padStart(3, "0")}`;
+    },
+    progressBarWidth() {
+      return `${(this.currentTime / 180000) * 100}%`;
+    },
+    entityName() {
+      if (this.currentTime < 90000) {
+        return "Demonio";
+      } else if (this.currentTime >= 90000 && this.currentTime < 180000) {
+        return "Cualquiera";
+      } else {
+        return "Espiritu";
+      }
     },
   },
   methods: {
@@ -32,11 +56,11 @@ export default {
       if (!this.intervalId) {
         this.intervalId = setInterval(() => {
           this.currentTime += 10;
-          if (this.currentTime >= 3600000) {
-            // 1 hora
+          if (this.currentTime >= 180000) {
             this.stopTimer();
           }
         }, 10);
+        this.started = true;
       }
     },
     stopTimer() {
@@ -50,6 +74,7 @@ export default {
       this.pausedTime = 0;
       this.pausedAt = null;
       this.stopTimer();
+      this.started = false;
     },
     handleVisibilityChange() {
       if (document.visibilityState === "hidden") {
@@ -57,7 +82,7 @@ export default {
         this.pausedTime = this.currentTime;
         this.stopTimer();
       } else {
-        if (this.pausedAt) {
+        if (this.pausedAt && this.started) {
           const currentTime = Date.now();
           const timeDiff = currentTime - this.pausedAt;
           this.currentTime = this.pausedTime + timeDiff;
@@ -79,15 +104,14 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 h1 {
   padding-top: 50px;
   font-size: 50px;
   font-family: "Arial Black", sans-serif;
   text-align: center;
-  color: #a00101; /* Naranja brillante */
-  text-shadow: 0 0 10px #a00101; /* Sombra naranja */
-  /* animation: parpadeo 2s infinite; */
+  color: #a00101; 
+  text-shadow: 0 0 10px #a00101; 
 }
 
 button {
@@ -133,5 +157,45 @@ button {
   100% {
     opacity: 1;
   }
+}
+
+.progress-container {
+  width: 100%;
+  height: 20px;
+  background-color: #ccc;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+.progress-bar {
+  height: 20px;
+  background-color: #721616;
+  border-radius: 10px;
+  transition: width 0.5s ease-in-out;
+}
+
+.card-container {
+  margin-top: 20px;
+}
+
+.card {
+  width: 100%;
+  height: 100px;
+  background-color: #5f2424;
+  color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  text-align: center;
+}
+
+.card h2 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.progress-card-container {
+  margin-top: 50px;
 }
 </style>
