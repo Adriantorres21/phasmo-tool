@@ -4,13 +4,13 @@ import { getFirestore, collection, doc, getDoc } from "firebase/firestore";
 import jsonData from './Server/GhostBD.js';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDSqBeik7UGiJoeusyVHIqkt0TJKS6i5XE",
-  authDomain: "phasmo-guia.firebaseapp.com",
-  projectId: "phasmo-guia",
-  storageBucket: "phasmo-guia.appspot.com",
-  messagingSenderId: "802155425788",
-  appId: "1:802155425788:web:1bb6d2f35059c3435c8c79",
-  measurementId: "G-P1XYJRMXHS",
+  apiKey: "********",
+  authDomain: "**********",
+  projectId: "*********************",
+  storageBucket: "********************",
+  messagingSenderId: "*****************",
+  appId: "***************",
+  measurementId: "*****************",
 };
 
 // Initialize Firebase
