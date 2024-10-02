@@ -1,0 +1,54 @@
+{
+  "name": "phasmo-tool",
+  "author": "AdrianTorres",
+  "version": "0.0.0",
+  "main": "electron-main.cjs",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "serve": "vite preview",
+    "electron": "electron electron-main.cjs",
+    "start": "concurrently \"npm run dev\" \"npm run electron\"",
+    "build-electron": "npm run build && electron-builder",
+    "build-electron-win": "electron-builder --win",
+    "start-electron-prod": "npm run build && electron ."
+  },
+  "build": {
+    "appId": "com.phasmo.app",
+    "productName": "phasmo-tool",
+    "copyright": "Copyright © 2024 ${author}",
+    "mac": {
+      "category": "public.app-category.utilities"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    },
+    "files": [
+      "dist/**/*",
+      "electron-main.cjs"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    }
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.6.0",
+    "@mdi/font": "^7.4.47",
+    "axios": "^1.7.7",
+    "firebase": "^10.14.0",
+    "vue": "^3.4.37",
+    "vue-axios": "^3.5.2",
+    "vue-router": "^4.4.5",
+    "vuetify": "^3.7.2"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.1.2",
+    "concurrently": "^7.6.0",
+    "electron": "^32.1.2",
+    "electron-builder": "^25.0.5",
+    "vite": "^5.4.1"
+  }
+}
